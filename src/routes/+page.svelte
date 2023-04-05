@@ -1,4 +1,5 @@
 <script>
+  import Wallet from './Wallet.svelte'
 </script>
 
 <svelte:head>
@@ -10,11 +11,18 @@
 </svelte:head>
 
 <main>
-  <h1>hi</h1>
+  <h1>Create Signature</h1>
+  <Wallet />
 </main>
 
 <style lang="scss">
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   h1 {
-    color: green;
+    font-family: 'Norican', cursive;
+    font-size: 3.5rem;
   }
 </style>

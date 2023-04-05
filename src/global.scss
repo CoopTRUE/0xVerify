@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&family=Norican&display=swap');
+
 *,
 *::before,
 *::after {
@@ -8,9 +10,11 @@
 }
 
 html {
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 body {
   min-height: 100vh;
+  background: linear-gradient(31deg, #0f2027, #203a43, #2c5364);
+  font-family: 'Inter', sans-serif;
 }

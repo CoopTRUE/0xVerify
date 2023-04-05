@@ -7,8 +7,10 @@ declare global {
     // interface PageData {}
     // interface Platform {}
   }
-  // eslint-disable-next-line no-var
-  var test: Record<string, Record<56 | 55 | 54>, boolean>
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ethereum: any
+  }
 }
 
 export {}
