@@ -30,6 +30,7 @@
       throw err
     })
 
+    hover = false
     $signerStore = signer
     address = signer.address
     provider
@@ -52,10 +53,11 @@
     ensName = ''
   }
   if (browser) {
-    // window.ethereum.on('accountsChanged', (accounts: string[]) => {
-    //   disconnect()
-    //   if (accounts.length) connect()
-    // })
+    window.ethereum.on('accountsChanged', (accounts: string[]) => {
+      location.reload()
+      // disconnect()
+      // if (accounts.length) connect()
+    })
   }
 </script>
 
@@ -64,7 +66,9 @@
     class="wallet"
     on:click={disconnect}
     on:mouseenter={() => (hover = true)}
+    on:focus={() => (hover = true)}
     on:mouseleave={() => (hover = false)}
+    on:blur={() => (hover = false)}
   >
     {#if hover}
       Disconnect?
@@ -87,9 +91,14 @@
     transition: all 0.2s ease-in-out;
     width: 10rem;
     height: 2rem;
-    &:hover {
+    &:hover,
+    &:focus {
+      outline: none;
       background: black;
       color: white;
+    }
+    &:focus {
+      box-shadow: 0 0 0 2px #007bff;
     }
     cursor: pointer;
   }
