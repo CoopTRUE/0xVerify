@@ -9,7 +9,6 @@
   import { goto } from '$app/navigation'
 
   $: verifyMode = $page.url.searchParams.get('verify') === 'true'
-  $: console.log('verifyMode', verifyMode)
 
   let ready = false
   onMount(() => {
@@ -41,11 +40,7 @@
       in:fade={{ duration: 700, delay: 600 }}
       on:click={() => goto(`/?verify=${!verifyMode}`)}
     >
-      {#if verifyMode}
-        Create?
-      {:else}
-        Verify?
-      {/if}
+      Or {verifyMode ? 'Create' : 'Verify'}?
     </button>
     <div class="wallet-wrapper" in:fly={{ x: 0, y: 40, duration: 700, delay: 600 }}>
       <Wallet />

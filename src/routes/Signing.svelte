@@ -1,24 +1,52 @@
 <script lang="ts">
   import { signer } from '$lib/stores'
+  import { fade, fly } from 'svelte/transition'
+  import toast from 'svelte-french-toast'
 
   let message = ''
-  let signature = ''
+  let signatureComplete = false
+  let textareaElement: HTMLTextAreaElement
 
-  function sign() {
+  async function sign() {
     if (!$signer) return
-    $signer
-      .signMessage(message)
-      .then(async (sig) => {
-        message = sig
-      })
-      .catch((err) => {
-        console.error(err)
-      })
+    message = await $signer.signMessage(message).catch((err) => {
+      toast.error('Failed to sign message')
+      throw err
+    })
+    signatureComplete = true
+  }
+  function onFocus() {
+    if (!signatureComplete) return
+    textareaElement.select()
+    navigator.clipboard.writeText(message).then(() => toast.success('Copied to clipboard'))
   }
 </script>
 
-<textarea name="signing area" placeholder={'Type your message here...'} bind:value={message} />
-<button class="sign-button" on:click={sign}>Sign Message</button>
+<textarea
+  name="signing area"
+  placeholder={'Type your message here...'}
+  bind:value={message}
+  bind:this={textareaElement}
+  on:focus={onFocus}
+  readonly={signatureComplete}
+  style:cursor={signatureComplete ? 'pointer' : 'text'}
+/>
+<div class="bottom">
+  <button class="sign-button" on:click={sign} in:fly={{ y: 500, duration: 500, delay: 520 }}>
+    Sign Message
+  </button>
+  {#if signatureComplete}
+    <button
+      on:click={() => {
+        message = ''
+        signatureComplete = false
+      }}
+      in:fade={{ duration: 300 }}
+    >
+      Reset?
+    </button>
+  {/if}
+</div>
 
 <!-- <div class="signature">
   <p>Signature:</p>
@@ -26,6 +54,9 @@
 </div> -->
 
 <style lang="scss">
+  button {
+    cursor: pointer;
+  }
   textarea {
     border: none;
     resize: none;
@@ -40,14 +71,6 @@
     &:focus {
       outline: none;
       box-shadow: 0 0 0 2px #007bff;
-    }
-  }
-  .signature {
-    margin-top: 2rem;
-    p {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.5rem;
-      margin: 0;
     }
   }
   .sign-button {
@@ -65,7 +88,6 @@
       background: black;
       color: white;
     }
-    cursor: pointer;
   }
   // should start from a small square, to small rectangle, to large rectangle, to large square
   $min-width: min(90%, 40rem);
