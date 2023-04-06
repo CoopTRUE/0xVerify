@@ -17,14 +17,7 @@
   }
 </script>
 
-<textarea
-  name="signature"
-  placeholder={$signer ? 'Type your message here...' : 'Connect your wallet to sign a message'}
-  cols="30"
-  rows="10"
-  bind:value={message}
-  readonly={!$signer}
-/>
+<textarea name="signing area" placeholder={'Type your message here...'} bind:value={message} />
 <button
   on:click={() => {
     if ($signer) {
@@ -51,19 +44,17 @@
   textarea {
     border: none;
     resize: none;
-    font-size: 1.5rem;
-    padding: 1rem;
     border-radius: 0.4rem;
     transition: all 0.2s ease-in-out;
     box-shadow: 0 0 0 1px #ced4da;
+    font-family: 'JetBrains Mono', monospace;
+    // keep width and height from animation even after animation is done
+    animation: intro-anim 0.9s ease forwards;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
     &:focus {
       outline: none;
-      &:not([readonly]) {
-        box-shadow: 0 0 0 2px #007bff;
-      }
-    }
-    &[readonly]:hover {
-      cursor: not-allowed;
+      box-shadow: 0 0 0 2px #007bff;
     }
   }
   .signature {
@@ -72,6 +63,24 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 1.5rem;
       margin: 0;
+    }
+  }
+  // should start from a small square, to small rectangle, to large rectangle, to large square
+  @keyframes intro-anim {
+    0% {
+      opacity: 0;
+      width: 2rem;
+      height: 0;
+    }
+    60% {
+      opacity: 1;
+      width: 40rem;
+      height: 2rem;
+    }
+    100% {
+      width: 40rem;
+      height: 20rem;
+      padding: 1rem;
     }
   }
 </style>

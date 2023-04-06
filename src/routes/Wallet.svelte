@@ -5,19 +5,7 @@
   import toast from 'svelte-french-toast'
 
   let address = ''
-  let ensName = ''
-  let shownAddress = ''
-  $: {
-    if (ensName) {
-      if (ensName.length > 9) {
-        shownAddress = ensName.slice(0, 6) + '...'
-      } else {
-        shownAddress = ensName
-      }
-    } else {
-      shownAddress = address.slice(0, 6) + '...' + address.slice(-4)
-    }
-  }
+  $: shownAddress = address.slice(0, 6) + '...' + address.slice(-4)
   let hover = false
 
   async function connect() {
@@ -33,31 +21,23 @@
     hover = false
     $signerStore = signer
     address = signer.address
-    provider
-      .lookupAddress(address)
-      .then((name) => {
-        if (name) {
-          ensName = name
-          toast.success(`Connected to ${ensName}`)
-        } else {
-          toast.success(`Connected to ${shownAddress}`)
-        }
-      })
-      .catch((err) => {
-        toast.success(`Connected to ${shownAddress}`)
-      })
   }
   function disconnect() {
     $signerStore = null
     address = ''
-    ensName = ''
   }
   if (browser) {
     window.ethereum.on('accountsChanged', (accounts: string[]) => {
-      location.reload()
-      // disconnect()
-      // if (accounts.length) connect()
+      if (accounts.length) connect()
+      else disconnect()
     })
+  }
+
+  function l(s: string) {
+    console.log(s)
+    return {
+      a: 1
+    }
   }
 </script>
 
