@@ -11,6 +11,7 @@
   async function connect() {
     if (!window.ethereum) {
       toast.error('No Ethereum wallet found')
+      return
     }
     const provider = new ethers.BrowserProvider(window.ethereum)
     const signer = await provider.getSigner().catch((err) => {
@@ -26,7 +27,7 @@
     $signerStore = null
     address = ''
   }
-  if (browser) {
+  if (browser && window.ethereum) {
     window.ethereum.on('accountsChanged', (accounts: string[]) => {
       if (accounts.length) connect()
       else disconnect()

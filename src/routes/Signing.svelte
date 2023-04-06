@@ -18,7 +18,7 @@
 </script>
 
 <textarea name="signing area" placeholder={'Type your message here...'} bind:value={message} />
-<button on:click={sign}>Sign Message</button>
+<button class="sign-button" on:click={sign}>Sign Message</button>
 
 <!-- <div class="signature">
   <p>Signature:</p>
@@ -49,6 +49,23 @@
       font-size: 1.5rem;
       margin: 0;
     }
+  }
+  .sign-button {
+    color: hsl(214, 71%, 50%);
+    font-weight: 600;
+    font-size: 1.5rem;
+    background: white;
+    border: solid 1px white;
+    border-radius: 20px;
+    transition: all 0.2s ease-in-out;
+    padding: 0.75rem 5rem;
+    &:hover,
+    &:focus {
+      outline: none;
+      background: black;
+      color: white;
+    }
+    cursor: pointer;
   }
   // should start from a small square, to small rectangle, to large rectangle, to large square
   $min-width: min(90%, 40rem);
