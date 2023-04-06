@@ -45,8 +45,9 @@
   }
   h1 {
     font-family: 'Norican', cursive;
-    font-size: 4rem;
-    margin-top: 5rem;
+    font-size: clamp(2.5rem, 14vw, 4rem);
+    text-align: center;
+    margin-top: min(5rem, 4vw);
     margin-bottom: 1.4rem;
   }
 </style>

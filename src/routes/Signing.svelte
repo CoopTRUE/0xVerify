@@ -8,8 +8,8 @@
     if (!$signer) return
     $signer
       .signMessage(message)
-      .then((sig) => {
-        signature = sig
+      .then(async (sig) => {
+        message = sig
       })
       .catch((err) => {
         console.error(err)
@@ -18,27 +18,12 @@
 </script>
 
 <textarea name="signing area" placeholder={'Type your message here...'} bind:value={message} />
-<button
-  on:click={() => {
-    if ($signer) {
-      $signer
-        .signMessage(message)
-        .then((sig) => {
-          signature = sig
-        })
-        .catch((err) => {
-          console.error(err)
-        })
-    }
-  }}
-  disabled={!$signer}
->
-  Sign Message
-</button>
-<div class="signature">
+<button on:click={sign}>Sign Message</button>
+
+<!-- <div class="signature">
   <p>Signature:</p>
   <p>{signature}</p>
-</div>
+</div> -->
 
 <style lang="scss">
   textarea {
@@ -66,6 +51,7 @@
     }
   }
   // should start from a small square, to small rectangle, to large rectangle, to large square
+  $min-width: min(90%, 40rem);
   @keyframes intro-anim {
     0% {
       opacity: 0;
@@ -74,11 +60,11 @@
     }
     60% {
       opacity: 1;
-      width: 40rem;
+      width: $min-width;
       height: 2rem;
     }
     100% {
-      width: 40rem;
+      width: $min-width;
       height: 20rem;
       padding: 1rem;
     }
