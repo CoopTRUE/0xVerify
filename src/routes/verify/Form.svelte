@@ -8,14 +8,21 @@
   import { slide } from 'svelte/transition'
   import ShieldCheck from 'lucide-svelte/icons/shield-check'
   import ScrollText from 'lucide-svelte/icons/scroll-text'
+  import { toast } from 'svelte-sonner'
 
-  export let data: SuperValidated<Infer<FormSchema>>
+  export let data: SuperValidated<Infer<FormSchema>, string>
 
   const form = superForm(data, {
     validators: zodClient(formSchema),
   })
 
-  const { form: formData, enhance, submitting } = form
+  const { form: formData, message: recoveredAddress, enhance, submitting } = form
+  $: if ($recoveredAddress) {
+    toast.success($recoveredAddress, {
+      duration: Infinity,
+      description: `The address ${$recoveredAddress} was recovered from the signature.`,
+    })
+  }
 </script>
 
 <form
