@@ -31,14 +31,14 @@
   class="flex flex-col gap-6"
   in:slide={{ delay: 400, duration: 500 }}
 >
-  <div class="flex gap-4">
+  <div class="flex flex-col gap-4 md:flex-row">
     <Form.Field {form} name="message" class="space-y-1">
       <Form.Control let:attrs>
         <Form.Label class="text-md">Message</Form.Label>
         <Textarea
           {...attrs}
           bind:value={$formData.message}
-          class="w-96"
+          class="w-[min(24rem,80vw)] md:w-[min(24rem,45vw)]"
           placeholder="Hello, World!"
         />
       </Form.Control>
@@ -51,7 +51,7 @@
         <Textarea
           {...attrs}
           bind:value={$formData.signatureHash}
-          class="w-96"
+          class="w-[min(24rem,80vw)] md:w-[min(24rem,45vw)]"
           placeholder="0x..."
         />
       </Form.Control>

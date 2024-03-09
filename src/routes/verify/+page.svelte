@@ -21,7 +21,7 @@
 {#key loaded}
   <main class="flex flex-col items-center">
     <h1
-      class="pb-2 font-['Orbitron'] text-[min(5rem,15vw)] font-black leading-none"
+      class="pb-6 font-['Orbitron'] text-[min(5rem,15vw)] font-black leading-none sm:pb-2"
       in:slide={{ axis: 'x', duration: 900, easing: cubicInOut }}
     >
       0xVerify
