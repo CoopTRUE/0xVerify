@@ -1,8 +1,14 @@
 <script lang="ts">
-  import { Button } from '$lib/components/ui/button'
-  import Smile from 'lucide-svelte/icons/smile'
+  import { onMount } from 'svelte'
+  import { cubicInOut } from 'svelte/easing'
+  import { slide } from 'svelte/transition'
+  import Form from './Form.svelte'
 
-  let clicked = 0
+  export let data
+  $: console.log(data)
+
+  let loaded = false
+  onMount(() => (loaded = true))
 </script>
 
 <svelte:head>
@@ -13,10 +19,17 @@
   />
 </svelte:head>
 
-<main>
-  <h1 class="flex items-center">Welcome<Smile /></h1>
-  <Button on:click={() => clicked++}>Clicked {clicked} {clicked === 1 ? 'time' : 'times'}</Button>
-</main>
+{#key loaded}
+  <main class="container mx-auto flex flex-col items-center">
+    <h1
+      class="pb-2 font-['Orbitron'] text-[min(5rem,15vw)] font-black leading-none"
+      in:slide={{ axis: 'x', duration: 900, easing: cubicInOut }}
+    >
+      0xVerify
+    </h1>
+    <Form data={data.form} />
+  </main>
+{/key}
 
 <style lang="postcss">
 </style>
