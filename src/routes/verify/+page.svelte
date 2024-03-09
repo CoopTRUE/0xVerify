@@ -5,7 +5,6 @@
   import Form from './Form.svelte'
 
   export let data
-  $: console.log(data)
 
   let loaded = false
   onMount(() => (loaded = true))
@@ -20,7 +19,7 @@
 </svelte:head>
 
 {#key loaded}
-  <main class="container mx-auto flex flex-col items-center">
+  <main class="flex flex-col items-center">
     <h1
       class="pb-2 font-['Orbitron'] text-[min(5rem,15vw)] font-black leading-none"
       in:slide={{ axis: 'x', duration: 900, easing: cubicInOut }}

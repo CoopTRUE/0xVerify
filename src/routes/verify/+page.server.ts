@@ -15,6 +15,7 @@ export const actions = {
     if (!form.valid) {
       return fail(400, { form })
     }
+    await new Promise((resolve) => setTimeout(resolve, 1000))
     form.data.message
     return { form }
   },
