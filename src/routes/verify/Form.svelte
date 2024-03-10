@@ -6,22 +6,26 @@
   import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms'
   import { zodClient } from 'sveltekit-superforms/adapters'
   import { slide } from 'svelte/transition'
-  import ShieldCheck from 'lucide-svelte/icons/shield-check'
+  import FileCheck from 'lucide-svelte/icons/file-check'
   import ScrollText from 'lucide-svelte/icons/scroll-text'
+  import { Button } from '$lib/components/ui/button'
+  import { copyText } from 'svelte-copy'
   import { toast } from 'svelte-sonner'
 
   export let data: SuperValidated<Infer<FormSchema>, string>
 
   const form = superForm(data, {
     validators: zodClient(formSchema),
+    resetForm: false,
   })
 
   const { form: formData, message: recoveredAddress, enhance, submitting } = form
-  $: if ($recoveredAddress) {
-    toast.success($recoveredAddress, {
-      duration: Infinity,
-      description: `The address ${$recoveredAddress} was recovered from the signature.`,
+
+  async function copyAddress() {
+    await copyText($recoveredAddress!).catch(() => {
+      toast.error('Failed to copy address to clipboard.')
     })
+    toast.success('Address copied to clipboard!')
   }
 </script>
 
@@ -68,7 +72,7 @@
   </Form.Field>
   <Form.Button disabled={$submitting}>
     {#if $formData.address}
-      <ShieldCheck class="mr-1" size={18} />
+      <FileCheck class="mr-1" size={18} />
       Verify Address
     {:else}
       <ScrollText class="mr-1" size={18} />
@@ -76,3 +80,13 @@
     {/if}
   </Form.Button>
 </form>
+{#if $recoveredAddress}
+  <p class="pt-4" transition:slide>
+    The address
+    <Button class="p-0 text-base font-bold" variant="link" on:click={copyAddress}>
+      {$recoveredAddress}
+      <span class="sr-only">Copy address to clipboard</span>
+    </Button>
+    was recovered from the signature.
+  </p>
+{/if}
