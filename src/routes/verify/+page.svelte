@@ -15,7 +15,7 @@
   <title>0xVerify</title>
   <meta
     name="description"
-    content="A simple and efficient way to verify cryptographic signatures from Ethereum addresses."
+    content="Recover and verify Ethereum addresses from cryptographic signatures."
   />
 </svelte:head>
 

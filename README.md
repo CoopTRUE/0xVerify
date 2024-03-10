@@ -1,6 +1,6 @@
 # 0xVerify
 
-This SvelteKit project provides a simple and efficient way to verify cryptographic signatures from Ethereum addresses.
+This SvelteKit project provides a simple interface to recover and verify Ethereum addresses from cryptographic signatures
 
 ## Installing
 
