@@ -3,6 +3,7 @@
   import { cubicInOut } from 'svelte/easing'
   import { slide } from 'svelte/transition'
   import Form from './Form.svelte'
+  import { cn } from '$lib/utils'
 
   export let data
 
@@ -19,13 +20,15 @@
 </svelte:head>
 
 {#key loaded}
-  <main class="flex flex-col items-center">
-    <h1
-      class="pb-6 font-['Orbitron'] text-[min(5rem,15vw)] font-black leading-none sm:pb-2"
-      in:slide={{ axis: 'x', duration: 900, easing: cubicInOut }}
-    >
-      0xVerify
-    </h1>
+  <main class={cn('flex flex-col items-center opacity-0', loaded && 'opacity-100')}>
+    <div in:slide={{ axis: 'x', duration: 900, easing: cubicInOut }} class="pb-6 sm:pb-5">
+      <h1 class="font-['Orbitron'] text-[clamp(2.5rem,15vw,5rem)] font-black leading-none">
+        0xVerify
+      </h1>
+      <p class="text-nowrap text-[clamp(0.6rem,1.1rem,4vw)] font-medium text-muted-foreground">
+        Cryptographic signature verification
+      </p>
+    </div>
     <Form data={data.form} />
   </main>
 {/key}

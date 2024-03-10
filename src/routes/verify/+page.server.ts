@@ -15,12 +15,18 @@ export const actions = {
       return fail(400, { form })
     }
 
-    const { message: signatureMessage, signatureHash } = form.data
+    const { message: signatureMessage, signatureHash, address } = form.data
     const recoveredAddress = await recoverMessageAddress({
       message: signatureMessage,
       signature: signatureHash,
     })
 
-    return message(form, recoveredAddress)
+    if (address && address === recoveredAddress.toLowerCase()) {
+      return message(form, { recoveredAddress, verified: true })
+    }
+    if (address && address !== recoveredAddress.toLowerCase()) {
+      return message(form, { recoveredAddress, verified: false })
+    }
+    return message(form, { recoveredAddress, verified: null })
   },
 }

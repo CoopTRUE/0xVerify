@@ -5,6 +5,12 @@ declare global {
     // interface PageData {}
     // interface PageState {}
     // interface Platform {}
+    namespace Superforms {
+      type Message = {
+        recoveredAddress: string
+        verified: boolean | null
+      }
+    }
   }
 }
 

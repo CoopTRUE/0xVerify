@@ -17,7 +17,8 @@
     </a>
   </p>
   <p>
-    Donations: <span class="break-all font-medium text-primary">
+    Donations:
+    <span class="break-all font-medium text-primary">
       0xD700F0dAb35B3076141d13807B05D4321A9B4f96
     </span>
   </p>

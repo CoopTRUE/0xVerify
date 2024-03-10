@@ -1,6 +1,5 @@
 <script lang="ts">
   import * as Form from '$lib/components/ui/form'
-  import { Input } from '$lib/components/ui/input'
   import { Textarea } from '$lib/components/ui/textarea'
   import { formSchema, type FormSchema } from './schema'
   import { type SuperValidated, type Infer, superForm } from 'sveltekit-superforms'
@@ -12,28 +11,30 @@
   import { copyText } from 'svelte-copy'
   import { toast } from 'svelte-sonner'
 
-  export let data: SuperValidated<Infer<FormSchema>, string>
+  export let data: SuperValidated<Infer<FormSchema>>
 
   const form = superForm(data, {
     validators: zodClient(formSchema),
     resetForm: false,
   })
 
-  const { form: formData, message: recoveredAddress, enhance, submitting } = form
+  const { form: formData, message, enhance, submitting } = form
 
-  async function copyAddress() {
-    await copyText($recoveredAddress!).catch(() => {
+  async function copyAddress(address: string) {
+    await copyText(address).catch(() => {
       toast.error('Failed to copy address to clipboard.')
     })
     toast.success('Address copied to clipboard!')
   }
+
+  $: console.log($message)
 </script>
 
 <form
   method="POST"
   use:enhance
   class="flex flex-col gap-6"
-  in:slide={{ delay: 400, duration: 500 }}
+  in:slide={{ delay: 800, duration: 500 }}
 >
   <div class="flex flex-col gap-4 md:flex-row">
     <Form.Field {form} name="message" class="space-y-1">
@@ -63,30 +64,43 @@
       <Form.FieldErrors />
     </Form.Field>
   </div>
-  <Form.Field {form} name="address">
+  <!-- <Form.Field {form} name="address">
     <Form.Control let:attrs>
       <Form.Label class="text-md">Address (Optional)</Form.Label>
       <Input {...attrs} bind:value={$formData.address} placeholder="0x..." />
     </Form.Control>
     <Form.FieldErrors />
-  </Form.Field>
+  </Form.Field> -->
   <Form.Button disabled={$submitting}>
     {#if $formData.address}
       <FileCheck class="mr-1" size={18} />
       Verify Address
     {:else}
       <ScrollText class="mr-1" size={18} />
-      Get Signer Address
+      Recover Signer Address
     {/if}
   </Form.Button>
 </form>
-{#if $recoveredAddress}
+{#if $message}
+  {@const { recoveredAddress } = $message}
   <p class="pt-4" transition:slide>
     The address
-    <Button class="p-0 text-base font-bold" variant="link" on:click={copyAddress}>
-      {$recoveredAddress}
+    <Button
+      class="p-0 text-base font-bold"
+      variant="link"
+      on:click={() => copyAddress(recoveredAddress)}
+    >
+      {recoveredAddress}
       <span class="sr-only">Copy address to clipboard</span>
     </Button>
     was recovered from the signature.
+    <br />
+    {#if $message.verified}
+      The signature <span class="text-base font-bold text-primary">matches the address</span>
+    {:else if $message.verified === false}
+      The signature <span class="text-base font-bold text-destructive">
+        does not match the address
+      </span>
+    {/if}
   </p>
 {/if}

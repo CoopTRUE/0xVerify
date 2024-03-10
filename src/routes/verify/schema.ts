@@ -9,7 +9,7 @@ export const formSchema = z.object({
     .transform((v) => v as Hex),
   address: z
     .string()
-    .regex(/^0x([A-Fa-f0-9]{40})$/, { message: 'Invalid address' })
+    .refine((v) => !v || /^0x([A-Fa-f0-9]{40})$/.test(v), { message: 'Invalid address' })
     .transform((v) => v as Address)
     .optional(),
 })
