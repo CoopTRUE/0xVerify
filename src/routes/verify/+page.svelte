@@ -27,19 +27,10 @@
         0xVerify
       </h1>
       <p class="text-nowrap text-[clamp(0.6rem,1.1rem,4vw)] font-medium text-muted-foreground">
-        Cryptographic signature verification <Button
-          variant="link"
-          size="sm"
-          class="p-0 text-lg"
-          href="/sign"
-        >
-          or sign
-        </Button>
+        Cryptographic signature verification
+        <Button variant="link" size="sm" class="p-0 text-lg" href="/sign">or sign</Button>
       </p>
     </div>
     <Form data={data.form} />
   </main>
 {/key}
-
-<style lang="postcss">
-</style>

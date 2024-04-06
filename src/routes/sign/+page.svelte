@@ -5,8 +5,8 @@
   import Form from './Form.svelte'
   import { cn } from '$lib/utils'
   import { Button } from '$lib/components/ui/button'
-
-  export let data
+  import Wallet from './Wallet.svelte'
+  import { address } from '$lib/stores'
 
   let loaded = false
   onMount(() => (loaded = true))
@@ -27,17 +27,16 @@
         0xSign
       </h1>
       <p class="text-nowrap text-[clamp(0.6rem,1.1rem,4vw)] font-medium text-muted-foreground">
-        Cryptographic signature verification <Button
-          variant="link"
-          size="sm"
-          class="p-0 text-lg"
-          href="/verify"
-        >
-          or verify
-        </Button>
+        Cryptographic signature verification
+        <Button variant="link" size="sm" class="p-0 text-lg" href="/verify">or verify</Button>
       </p>
+      {#if loaded}
+        <Wallet />
+      {/if}
     </div>
-    <Form data={data.form} />
+    {#if $address}
+      <Form />
+    {/if}
   </main>
 {/key}
 
